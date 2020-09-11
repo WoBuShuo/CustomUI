@@ -6,4 +6,10 @@
         <attr name="already_played_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="ScaleTabLayout">
+
+        <attr name="tab_select_text_color" format="color"/>
+        <attr name="tab_unselect_text_color" format="color"/>
+    </declare-styleable>
+
 </resources>

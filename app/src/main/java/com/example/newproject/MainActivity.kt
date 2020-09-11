@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         main_voice4.setSize(32, 20)
         main_voice4.setOnClickListener {
             thread {

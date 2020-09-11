@@ -24,6 +24,8 @@
     <com.example.newproject.view.ScaleTabLayout
         android:id="@+id/main_tab"
         android:layout_width="match_parent"
+        app:tab_select_text_color="#555aab"
+        app:tab_unselect_text_color="#11aaab"
         android:layout_height="50dp"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -3,6 +3,7 @@ package com.example.newproject.view;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 
 import android.util.AttributeSet;
@@ -34,6 +35,13 @@ public class ScaleTabLayout extends ConstraintLayout {
         super(context, attrs, defStyleAttr);
         this.context = context;
         mDefaultColor=Color.RED;
+
+        if (attrs != null) {
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ScaleTabLayout);
+            mSelectColor = ta.getColor(R.styleable.ScaleTabLayout_tab_select_text_color, Color.BLUE);
+            mDefaultColor = ta.getColor(R.styleable.ScaleTabLayout_tab_unselect_text_color, Color.RED);
+            ta.recycle();
+        }
     }
 
     private Context context;
@@ -45,6 +53,7 @@ public class ScaleTabLayout extends ConstraintLayout {
     private int mIndicatorWidth = dpToPx(30);
     private int mTopMargin = dpToPx(10);
     private int mDefaultColor;
+    private int mSelectColor;
 
     private void addIndicator() {
         if (mViewList.size() == 0) {
@@ -91,7 +100,7 @@ public class ScaleTabLayout extends ConstraintLayout {
         textView.setLayoutParams(layoutParams);
         textView.setText(title);
         if (index==0){
-            textView.setTextColor(mDefaultColor);
+            textView.setTextColor(mSelectColor);
         }else{
             textView.setTextColor(mDefaultColor);
         }
@@ -116,7 +125,7 @@ public class ScaleTabLayout extends ConstraintLayout {
                     mViewList.get(i).setTextColor(mDefaultColor);
                     if (v.getId() == mViewList.get(i).getId()) {
                         mLastPosition = i;
-                        mViewList.get(i).setTextColor(Color.BLACK);
+                        mViewList.get(i).setTextColor(mSelectColor);
                     }
                 }
                 if (mListener != null) {
@@ -163,7 +172,7 @@ public class ScaleTabLayout extends ConstraintLayout {
         for (int i = 0; i < mViewList.size(); i++) {
             mViewList.get(i).setTextColor(mDefaultColor);
             if (i==mLastPosition){
-                mViewList.get(i).setTextColor(Color.BLACK);
+                mViewList.get(i).setTextColor(mSelectColor);
             }
         }
     }
