@@ -1,21 +1,14 @@
 package com.example.newproject
 
-import android.content.Context
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
-import android.util.AttributeSet
+import android.os.Environment
 import android.util.Log
-import android.view.LayoutInflater
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import com.example.newproject.voice.OperationUtil
+import com.example.newproject.voice.WavFileReader
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlin.concurrent.thread
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,17 +18,17 @@ class MainActivity : AppCompatActivity() {
 
         main_voice4.setSize(32, 20)
         main_voice4.setOnClickListener {
-            thread {
-                var i = 0;
-                while (true) {
-                    if (i > 100) {
-                        return@thread
-                    }
-                    Thread.sleep(300)
-                    i++;
-                    main_voice4.playVoice(i)
-                }
-            }
+//            thread {
+//                var i = 0;
+//                while (true) {
+//                    if (i > 100) {
+//                        return@thread
+//                    }
+//                    Thread.sleep(300)
+//                    i++;
+//                    main_voice4.playVoice(i)
+//                }
+//            }
         }
         main_voice4.setOnLongClickListener {
             Log.e("----------", "setOnLongClickListener: ")
@@ -54,7 +47,24 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        });
 
+        val reader = WavFileReader()
+        reader.openFile(
+            Environment.getExternalStorageDirectory().toString() + "/OBB/test.wav")
+
+        thread {
+            val buffer = ByteArray(1024 * 2)
+            while (reader.readData(buffer, 0, buffer.size) > 0) {
+                Log.e(WavFileReader::class.java.simpleName, "onCreate: 读取中")
+                val tempVolume: Double = OperationUtil.getO(buffer)
+                if (tempVolume > mPeakVolume) {
+                    mPeakVolume = tempVolume
+                }
+            }
+            Log.e(WavFileReader::class.java.simpleName, "mPeakVolume: "+mPeakVolume)
+        }
+
     }
 
+    var mPeakVolume: Double = 0.0
 
 }

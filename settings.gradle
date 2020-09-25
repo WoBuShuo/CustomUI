@@ -1,2 +1,6 @@
+
+include ':annotation'
+include ':compiler'
+include ':NetHandle'
 include ':app'
 rootProject.name = "NewProject"
